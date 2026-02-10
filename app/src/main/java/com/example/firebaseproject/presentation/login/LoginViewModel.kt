@@ -19,34 +19,28 @@ class LoginViewModel @Inject constructor(
     private val emailLoginUseCase: EmailLoginUseCase
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow<String?>(null)
-    val uiState: StateFlow<String?> = _uiState
-
+    private val _uiState = MutableStateFlow<LoginUiState>(LoginUiState.Idle)
+    val uiState: StateFlow<LoginUiState> = _uiState
     fun signInWithGoogle() {
         viewModelScope.launch {
             val result = googleSignInUseCase()
             result.fold(
                 onSuccess = { user ->
                     saveUserUseCase(user)
-                    _uiState.value = "Login Success"
+                    _uiState.value = LoginUiState.Success
                 },
                 onFailure = { error ->
-                    _uiState.value = error.message
+                    _uiState.value = LoginUiState.Error(error.message)
                 }
             )
         }
     }
 
-    fun saveUser(user: User) {
-        viewModelScope.launch {
-            saveUserUseCase(user)
-        }
-    }
 
     fun loginWithEmail(email: String, password: String) {
         viewModelScope.launch {
             val result = emailLoginUseCase(email, password)
-            _uiState.value = result.fold(
+            result.fold(
                 onSuccess = { "Login Success" },
                 onFailure = { it.message }
             )
