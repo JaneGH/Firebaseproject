@@ -1,4 +1,6 @@
-package com.example.firebaseproject.domain
+package com.example.firebaseproject.domain.repository
+
+import com.example.firebaseproject.domain.User
 
 interface AuthRepository {
     suspend fun signInWithGoogle(): Result<User>

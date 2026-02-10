@@ -1,4 +1,4 @@
-package com.example.firebaseproject.presentation
+package com.example.firebaseproject.presentation.login
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -14,8 +14,6 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.launch
 
 @Composable
 fun LoginScreen(

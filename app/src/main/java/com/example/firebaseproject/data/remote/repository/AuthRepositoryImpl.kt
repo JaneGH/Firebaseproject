@@ -1,6 +1,8 @@
-package com.example.firebaseproject.data.remote
+package com.example.firebaseproject.data.remote.repository
 
-import com.example.firebaseproject.domain.AuthRepository
+import com.example.firebaseproject.data.remote.GoogleAuthManager
+import com.example.firebaseproject.data.remote.toDomain
+import com.example.firebaseproject.domain.repository.AuthRepository
 import com.example.firebaseproject.domain.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider

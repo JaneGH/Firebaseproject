@@ -1,5 +1,7 @@
-package com.example.firebaseproject.domain
+package com.example.firebaseproject.domain.usecase
 
+import com.example.firebaseproject.domain.User
+import com.example.firebaseproject.domain.repository.UserRepository
 import javax.inject.Inject
 
 

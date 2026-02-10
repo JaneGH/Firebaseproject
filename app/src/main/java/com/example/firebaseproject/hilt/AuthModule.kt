@@ -1,11 +1,10 @@
 package com.example.firebaseproject.hilt
 
-import android.content.Context
-import com.example.firebaseproject.data.remote.AuthRepositoryImpl
+import com.example.firebaseproject.data.remote.repository.AuthRepositoryImpl
 import com.example.firebaseproject.data.remote.GoogleAuthManager
-import com.example.firebaseproject.domain.AuthRepository
-import com.example.firebaseproject.domain.EmailLoginUseCase
-import com.example.firebaseproject.domain.GoogleSignInUseCase
+import com.example.firebaseproject.domain.repository.AuthRepository
+import com.example.firebaseproject.domain.usecase.EmailLoginUseCase
+import com.example.firebaseproject.domain.usecase.GoogleSignInUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

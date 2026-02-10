@@ -1,8 +1,8 @@
 package com.example.firebaseproject.hilt
 
-import com.example.firebaseproject.data.remote.UserRepositoryImpl
+import com.example.firebaseproject.data.remote.repository.UserRepositoryImpl
 
-import com.example.firebaseproject.domain.UserRepository
+import com.example.firebaseproject.domain.repository.UserRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

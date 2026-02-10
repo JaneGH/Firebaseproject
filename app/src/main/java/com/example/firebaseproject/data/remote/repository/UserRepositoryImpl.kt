@@ -1,7 +1,7 @@
-package com.example.firebaseproject.data.remote
+package com.example.firebaseproject.data.remote.repository
 
 import com.example.firebaseproject.domain.User
-import com.example.firebaseproject.domain.UserRepository
+import com.example.firebaseproject.domain.repository.UserRepository
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject

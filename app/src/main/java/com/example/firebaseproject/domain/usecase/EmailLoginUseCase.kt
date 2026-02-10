@@ -1,4 +1,6 @@
-package com.example.firebaseproject.domain
+package com.example.firebaseproject.domain.usecase
+
+import com.example.firebaseproject.domain.repository.AuthRepository
 
 class EmailLoginUseCase(
     private val repository: AuthRepository

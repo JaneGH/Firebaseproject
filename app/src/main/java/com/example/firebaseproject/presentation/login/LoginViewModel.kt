@@ -1,14 +1,11 @@
-package com.example.firebaseproject.presentation
+package com.example.firebaseproject.presentation.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.firebaseproject.data.remote.GoogleAuthManager
-import com.example.firebaseproject.domain.EmailLoginUseCase
-import com.example.firebaseproject.domain.GoogleSignInUseCase
-import com.example.firebaseproject.domain.SaveUserUseCase
+import com.example.firebaseproject.domain.usecase.EmailLoginUseCase
+import com.example.firebaseproject.domain.usecase.GoogleSignInUseCase
+import com.example.firebaseproject.domain.usecase.SaveUserUseCase
 import com.example.firebaseproject.domain.User
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GoogleAuthProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
