@@ -1,6 +1,7 @@
 package com.example.firebaseproject.data.remote
 
 import com.example.firebaseproject.domain.AuthRepository
+import com.example.firebaseproject.domain.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.coroutines.tasks.await
@@ -12,15 +13,23 @@ class AuthRepositoryImpl @Inject constructor(
 
     private val auth = FirebaseAuth.getInstance()
 
-    override suspend fun signInWithGoogle(): Result<Unit> {
+    override suspend fun signInWithGoogle(): Result<User> {
+
         val token = googleAuthManager.getGoogleToken()
             ?: return Result.failure(Exception("Token is null"))
 
         val credential = GoogleAuthProvider.getCredential(token, null)
 
         return try {
-            auth.signInWithCredential(credential).await()
-            Result.success(Unit)
+            val result = auth.signInWithCredential(credential).await()
+
+            val firebaseUser = result.user
+                ?: return Result.failure<User>(Exception("User is null"))
+
+            val user = firebaseUser.toDomain()
+
+            Result.success(user)
+
         } catch (e: Exception) {
             Result.failure(e)
         }

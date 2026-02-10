@@ -31,4 +31,5 @@ object AuthModule {
     fun provideEmailLoginUseCase(
         repository: AuthRepository
     ) = EmailLoginUseCase(repository)
+
 }

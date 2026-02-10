@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.firebaseproject.data.remote.GoogleAuthManager
 import com.example.firebaseproject.domain.EmailLoginUseCase
 import com.example.firebaseproject.domain.GoogleSignInUseCase
+import com.example.firebaseproject.domain.SaveUserUseCase
+import com.example.firebaseproject.domain.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,6 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
+    private val saveUserUseCase: SaveUserUseCase,
     private val googleSignInUseCase: GoogleSignInUseCase,
     private val emailLoginUseCase: EmailLoginUseCase
 ) : ViewModel() {
@@ -25,10 +28,21 @@ class LoginViewModel @Inject constructor(
     fun signInWithGoogle() {
         viewModelScope.launch {
             val result = googleSignInUseCase()
-            _uiState.value = result.fold(
-                onSuccess = { "Login Success" },
-                onFailure = { it.message }
+            result.fold(
+                onSuccess = { user ->
+                    saveUserUseCase(user)
+                    _uiState.value = "Login Success"
+                },
+                onFailure = { error ->
+                    _uiState.value = error.message
+                }
             )
+        }
+    }
+
+    fun saveUser(user: User) {
+        viewModelScope.launch {
+            saveUserUseCase(user)
         }
     }
 

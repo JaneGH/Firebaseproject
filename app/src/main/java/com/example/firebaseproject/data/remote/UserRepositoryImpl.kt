@@ -1,0 +1,20 @@
+package com.example.firebaseproject.data.remote
+
+import com.example.firebaseproject.domain.User
+import com.example.firebaseproject.domain.UserRepository
+import com.google.firebase.database.FirebaseDatabase
+import kotlinx.coroutines.tasks.await
+import javax.inject.Inject
+
+class UserRepositoryImpl @Inject constructor(
+    private val database: FirebaseDatabase
+) : UserRepository {
+
+    override suspend fun saveUser(user: User) {
+        database.reference
+            .child("users")
+            .child(user.uid)
+            .setValue(user)
+            .await()
+    }
+}
