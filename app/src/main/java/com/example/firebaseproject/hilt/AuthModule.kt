@@ -1,6 +1,6 @@
 package com.example.firebaseproject.hilt
 
-import com.example.firebaseproject.data.remote.repository.AuthRepositoryImpl
+import com.example.firebaseproject.data.repository.AuthRepositoryImpl
 import com.example.firebaseproject.data.remote.GoogleAuthManager
 import com.example.firebaseproject.domain.repository.AuthRepository
 import com.example.firebaseproject.domain.usecase.EmailLoginUseCase

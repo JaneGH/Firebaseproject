@@ -1,4 +1,4 @@
-package com.example.firebaseproject.domain
+package com.example.firebaseproject.domain.model
 
 data class User(
     val uid: String,

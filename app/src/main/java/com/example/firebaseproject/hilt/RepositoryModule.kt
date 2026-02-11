@@ -1,6 +1,8 @@
 package com.example.firebaseproject.hilt
 
-import com.example.firebaseproject.data.remote.repository.UserRepositoryImpl
+import com.example.firebaseproject.data.repository.ImagesRepositoryImpl
+import com.example.firebaseproject.data.repository.UserRepositoryImpl
+import com.example.firebaseproject.domain.repository.ImagesRepository
 
 import com.example.firebaseproject.domain.repository.UserRepository
 import dagger.Binds
@@ -18,4 +20,9 @@ abstract class RepositoryModule {
     abstract fun bindUserRepository(
         impl: UserRepositoryImpl
     ): UserRepository
+
+    @Binds @Singleton
+    abstract fun provideImagesRepo(
+        impl: ImagesRepositoryImpl
+    ): ImagesRepository
 }

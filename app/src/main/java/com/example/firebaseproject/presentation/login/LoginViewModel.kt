@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.firebaseproject.domain.usecase.EmailLoginUseCase
 import com.example.firebaseproject.domain.usecase.GoogleSignInUseCase
 import com.example.firebaseproject.domain.usecase.SaveUserUseCase
-import com.example.firebaseproject.domain.User
+import com.example.firebaseproject.domain.model.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -22,6 +22,7 @@ class LoginViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<LoginUiState>(LoginUiState.Idle)
     val uiState: StateFlow<LoginUiState> = _uiState
     fun signInWithGoogle() {
+        _uiState.value = LoginUiState.Loading
         viewModelScope.launch {
             val result = googleSignInUseCase()
             result.fold(

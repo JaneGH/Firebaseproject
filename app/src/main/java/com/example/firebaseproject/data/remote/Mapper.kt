@@ -1,6 +1,6 @@
 package com.example.firebaseproject.data.remote
 
-import com.example.firebaseproject.domain.User
+import com.example.firebaseproject.domain.model.User
 import com.google.firebase.auth.FirebaseUser
 
 fun FirebaseUser.toDomain(): User {

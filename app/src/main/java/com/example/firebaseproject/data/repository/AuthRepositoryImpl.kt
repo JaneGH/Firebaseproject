@@ -1,9 +1,9 @@
-package com.example.firebaseproject.data.remote.repository
+package com.example.firebaseproject.data.repository
 
 import com.example.firebaseproject.data.remote.GoogleAuthManager
 import com.example.firebaseproject.data.remote.toDomain
 import com.example.firebaseproject.domain.repository.AuthRepository
-import com.example.firebaseproject.domain.User
+import com.example.firebaseproject.domain.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.coroutines.tasks.await
