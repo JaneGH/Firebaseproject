@@ -86,5 +86,10 @@ class ClientsRepositoryImpl @Inject constructor(
             }
     }
 
+    override fun getClientById(clientId:String): Flow<Client?> {
+      return  clientDao.getClientById(clientId)
+          .map { entity -> entity?.toDomain() }
+    }
+
 
 }

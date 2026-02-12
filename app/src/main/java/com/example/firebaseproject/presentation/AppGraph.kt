@@ -9,7 +9,6 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.firebaseproject.domain.model.Client
 import com.example.firebaseproject.presentation.client.ClientScreen
 import com.example.firebaseproject.presentation.client.ClientViewModel
 import com.example.firebaseproject.presentation.images.ImagesScreen
@@ -31,15 +30,18 @@ fun AppGraph(
         composable("home"){ ImagesScreen(
             onAddClientClick = {
                 navController.navigate("client")
+            },
+            onClientClick = { id ->
+                navController.navigate("client/$id")
             }
         ) }
 
         composable("client") {
             val viewModel: ClientViewModel = hiltViewModel()
             ClientScreen(
-                client = null,
+                clientId  = null,
                 isEditMode = true,
-                onSaveClick = { fullName, age, address, avatarUri,  galleryUris: List<Uri>->
+                onSaveClick = { fullName, age, address, avatarUri, galleryUris: List<Uri>->
 
                     viewModel.saveClient(
                         fullName = fullName,
@@ -63,20 +65,20 @@ fun AppGraph(
 
             val clientId = backStackEntry.arguments?.getString("clientId")
 
-            val viewModel: ClientViewModel = viewModel()
+            val viewModel: ClientViewModel = hiltViewModel()
 
             ClientScreen(
-                client = null,
+                clientId = clientId,
                 isEditMode = true,
                 onSaveClick = { fullName, age, address, avatarUri, galleryUris: List<Uri> ->
 
-                    viewModel.saveClient(
-                        fullName = fullName,
-                        age = age,
-                        address = address,
-                        avatarUri = avatarUri,
-                        galleryUris = galleryUris
-                    )
+//                    viewModel.saveClient(
+//                        fullName = fullName,
+//                        age = age,
+//                        address = address,
+//                        avatarUri = avatarUri,
+//                        galleryUris = galleryUris
+//                    )
 
                     navController.popBackStack()
                 }

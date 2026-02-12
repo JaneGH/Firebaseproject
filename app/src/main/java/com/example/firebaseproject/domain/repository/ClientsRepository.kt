@@ -10,4 +10,6 @@ interface ClientsRepository {
     fun enqueueSync(clientId: String )
 
     fun getAllClients(): Flow<List<Client>>
+
+    fun getClientById(clientId: String): Flow<Client?>
 }

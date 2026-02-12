@@ -5,7 +5,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -15,7 +14,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.AsyncImage
 import com.example.firebaseproject.data.storage.CameraImageStorage
 import com.google.firebase.auth.FirebaseAuth
 
@@ -25,7 +23,8 @@ import java.io.File
 @Composable
 fun ImagesScreen(
 //    onLogout: () -> Unit
-    onAddClientClick: () -> Unit
+    onAddClientClick: () -> Unit,
+    onClientClick:(id:String)->Unit
 ) {
     val vm: ImagesViewModel = hiltViewModel()
 //    val images  by vm.images.collectAsState()
@@ -84,6 +83,7 @@ fun ImagesScreen(
                 items(clients) { client ->
 
                     Card(
+                        onClick = {onClientClick(client.id)},
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 6.dp),

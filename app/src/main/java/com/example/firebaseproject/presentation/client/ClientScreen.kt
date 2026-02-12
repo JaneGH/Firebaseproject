@@ -19,6 +19,8 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -29,30 +31,49 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.example.firebaseproject.R
 import com.example.firebaseproject.domain.model.Client
-import java.util.UUID
+import com.example.firebaseproject.domain.usecase.GetClientByIdUseCase
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 
 
 @Composable
 fun ClientScreen(
-    client: Client? = null,
+    clientId: String?,
     isEditMode: Boolean = false,
-    onSaveClick: (
-        fullName: String,
-        age: Int,
-        address: String,
-        avatarUri: Uri?,
-        galleryUris: List<Uri>
-    ) -> Unit
+    onSaveClick: (fullName: String, age: Int, address: String, avatarUri: Uri?, galleryUris: List<Uri>) -> Unit
 ) {
 
-    var fullName by rememberSaveable { mutableStateOf(client?.fullName ?: "") }
-    var age by rememberSaveable { mutableStateOf(client?.age?.toString() ?: "") }
-    var address by rememberSaveable { mutableStateOf(client?.address ?: "") }
+    val viewModel: ClientViewModel = hiltViewModel()
+    val uiState by viewModel.uiState.collectAsState()
+
+    LaunchedEffect(clientId) {
+        clientId?.let {
+            viewModel.getClient(it)
+        }
+    }
+
+
+
+    var fullName by rememberSaveable { mutableStateOf("") }
+    var age by rememberSaveable { mutableStateOf("") }
+    var address by rememberSaveable { mutableStateOf("") }
     var selectedImageUri by rememberSaveable { mutableStateOf<Uri?>(null) }
     var selectedGalleryUris by rememberSaveable { mutableStateOf<List<Uri>>(emptyList()) }
+
+    LaunchedEffect(uiState) {
+        if (uiState is ClientUiState.Success) {
+            val client = (uiState as ClientUiState.Success).client
+            fullName = client.fullName
+            age = client.age.toString()
+            address = client.address
+        }
+    }
 
     val imagePickerLauncher =
         rememberLauncherForActivityResult(

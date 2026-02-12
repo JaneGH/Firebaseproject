@@ -18,6 +18,9 @@ interface ClientDao {
     @Query("SELECT * FROM clients")
     fun observeAll(): Flow<List<ClientEntity>>
 
+    @Query("SELECT * FROM clients WHERE id = :id")
+    fun getClientById(id: String): Flow<ClientEntity?>
+
     @Query("SELECT * FROM clients WHERE syncStatus = :status")
     suspend fun getBySyncStatus(status: SyncStatus): List<ClientEntity>
 
