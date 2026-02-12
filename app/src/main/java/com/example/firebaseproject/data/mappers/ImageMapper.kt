@@ -7,6 +7,7 @@ fun UserImageEntity.toDomain(): UserImage =
     UserImage(
         id = id,
         userId = userId,
+        clientId = clientId,
         localPath = localPath,
         remoteUrl = remoteUrl,
         syncStatus = syncStatus,

@@ -19,6 +19,7 @@ import java.io.File
 @Composable
 fun ImagesScreen(
 //    onLogout: () -> Unit
+    onAddClientClick: () -> Unit
 ) {
     val vm: ImagesViewModel = hiltViewModel()
     val images by vm.images.collectAsState()
@@ -37,13 +38,17 @@ fun ImagesScreen(
         }
 
     Column(Modifier.fillMaxSize().padding(12.dp)) {
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+        Column (Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(12.dp)) {
             Button(onClick = {
                 val uri = cameraStorage.createImageUri()
                 takePictureLauncher.launch(uri)
             }) { Text("Take photo") }
 
             OutlinedButton(onClick = { vm.sync(uid) }) { Text("Sync") }
+
+            OutlinedButton(onClick = onAddClientClick) {
+                Text("Add Client")
+            }
 
 //            OutlinedButton(onClick = onLogout) { Text("Logout") }
         }

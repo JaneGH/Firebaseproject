@@ -33,9 +33,14 @@ class ImagesRepositoryImpl @Inject constructor(
                 localPath = localPath,
                 remoteUrl = null,
                 syncStatus = SyncStatus.PENDING,
-                createdAt = System.currentTimeMillis()
+                createdAt = System.currentTimeMillis(),
+                clientId = ""
             )
         )
+    }
+
+    override suspend fun addImageFromGallery(uid: String, contentUri: String) {
+        TODO("Not yet implemented")
     }
 
     override fun enqueueSync(uid: String) {

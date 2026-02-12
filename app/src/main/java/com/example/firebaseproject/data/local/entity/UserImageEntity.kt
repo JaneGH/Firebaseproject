@@ -12,6 +12,8 @@ data class UserImageEntity(
 
     val userId: String,
 
+    val clientId: String,
+
     val localPath: String,
 
     val remoteUrl: String?,

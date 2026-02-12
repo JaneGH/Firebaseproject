@@ -6,5 +6,8 @@ import kotlinx.coroutines.flow.Flow
 interface ImagesRepository {
     fun observeImages(uid: String): Flow<List<UserImage>>
     suspend fun addImageFromLocalPath(uid: String, localPath: String)
+
+    suspend fun addImageFromGallery(uid: String, contentUri: String)
+
     fun enqueueSync(uid: String)
 }
