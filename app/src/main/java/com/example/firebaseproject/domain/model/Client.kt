@@ -6,5 +6,4 @@ data class Client(
     val age: Int,
     val address: String = "",
     val avatarUri: String ="",
-    val gallery: List<String> = emptyList<String>()
 )

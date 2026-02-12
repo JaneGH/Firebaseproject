@@ -8,4 +8,6 @@ interface ClientsRepository {
     suspend fun addClient(client: Client,  galleryLocalPaths: List<String>)
 
     fun enqueueSync(clientId: String )
+
+    fun getAllClients(): Flow<List<Client>>
 }

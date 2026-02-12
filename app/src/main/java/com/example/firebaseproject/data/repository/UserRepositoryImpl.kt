@@ -1,8 +1,10 @@
 package com.example.firebaseproject.data.repository
 
+import com.example.firebaseproject.domain.model.Client
 import com.example.firebaseproject.domain.model.User
 import com.example.firebaseproject.domain.repository.UserRepository
 import com.google.firebase.database.FirebaseDatabase
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
@@ -17,4 +19,5 @@ class UserRepositoryImpl @Inject constructor(
             .setValue(user)
             .await()
     }
+
 }

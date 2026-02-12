@@ -11,10 +11,13 @@ import com.example.firebaseproject.data.local.entity.ClientEntity
 import com.example.firebaseproject.data.SyncStatus
 import com.example.firebaseproject.data.local.dao.UserImagesDao
 import com.example.firebaseproject.data.local.entity.UserImageEntity
+import com.example.firebaseproject.data.mappers.toDomain
 import com.example.firebaseproject.domain.model.Client
 import com.example.firebaseproject.domain.repository.ClientsRepository
 import com.example.firebaseproject.worker.ClientsSyncWorker
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class ClientsRepositoryImpl @Inject constructor(
@@ -73,4 +76,15 @@ class ClientsRepositoryImpl @Inject constructor(
 
         workManager.enqueue(request)
     }
+
+    override fun getAllClients(): Flow<List<Client>> {
+        return clientDao.observeAll()
+            .map { entities ->
+                entities.map { entity ->
+                    entity.toDomain()
+                }
+            }
+    }
+
+
 }
