@@ -2,7 +2,7 @@ package com.example.firebaseproject.data.local.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.firebaseproject.domain.SyncStatus
+import com.example.firebaseproject.data.SyncStatus
 
 @Entity(tableName = "clients")
 data class ClientEntity(

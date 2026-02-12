@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface ClientsRepository {
 
-    suspend fun addClient(client: Client)
+    suspend fun addClient(client: Client,  galleryLocalPaths: List<String>)
 
     fun enqueueSync(clientId: String )
 }

@@ -1,7 +1,7 @@
 package com.example.firebaseproject.data.local.converter
 
 import androidx.room.TypeConverter
-import com.example.firebaseproject.domain.SyncStatus
+import com.example.firebaseproject.data.SyncStatus
 
 class SyncStatusConverter {
 

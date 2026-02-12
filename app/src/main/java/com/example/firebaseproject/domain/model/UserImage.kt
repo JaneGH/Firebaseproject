@@ -1,6 +1,6 @@
 package com.example.firebaseproject.domain.model
 
-import com.example.firebaseproject.domain.SyncStatus
+import com.example.firebaseproject.data.SyncStatus
 
 data class UserImage(
     val id: Long,

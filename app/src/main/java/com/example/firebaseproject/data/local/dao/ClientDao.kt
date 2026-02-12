@@ -6,7 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.example.firebaseproject.data.local.entity.ClientEntity
-import com.example.firebaseproject.domain.SyncStatus
+import com.example.firebaseproject.data.SyncStatus
 import kotlinx.coroutines.flow.Flow
 
 @Dao

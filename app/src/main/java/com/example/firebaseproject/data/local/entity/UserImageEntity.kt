@@ -1,10 +1,22 @@
 package com.example.firebaseproject.data.local.entity
 
 import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.example.firebaseproject.domain.SyncStatus
+import com.example.firebaseproject.data.SyncStatus
 
-@Entity(tableName = "user_images")
+@Entity(tableName = "user_images",
+    foreignKeys = [
+        ForeignKey(
+            entity = ClientEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["clientId"],
+            onDelete = ForeignKey.CASCADE
+        )
+    ],
+    indices = [Index("clientId")]
+    )
 data class UserImageEntity(
 
     @PrimaryKey(autoGenerate = true)
@@ -16,7 +28,7 @@ data class UserImageEntity(
 
     val localPath: String,
 
-    val remoteUrl: String?,
+    val remoteUrl: String = "",
 
     val syncStatus: SyncStatus,
 

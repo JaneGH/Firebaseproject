@@ -1,4 +1,4 @@
-package com.example.firebaseproject.domain
+package com.example.firebaseproject.data
 
 enum class SyncStatus {
     PENDING,

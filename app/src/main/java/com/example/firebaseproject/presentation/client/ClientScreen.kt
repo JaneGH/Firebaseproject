@@ -43,7 +43,8 @@ fun ClientScreen(
         fullName: String,
         age: Int,
         address: String,
-        avatarUri: Uri?
+        avatarUri: Uri?,
+        galleryUris: List<Uri>
     ) -> Unit
 ) {
 
@@ -161,7 +162,9 @@ fun ClientScreen(
                         fullName,
                         age.toIntOrNull() ?: 0,
                         address,
-                        selectedImageUri
+                        selectedImageUri,
+                        selectedGalleryUris
+
                     )
                 },
                 modifier = Modifier

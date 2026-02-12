@@ -1,5 +1,6 @@
 package com.example.firebaseproject.presentation
 
+import android.net.Uri
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -38,13 +39,14 @@ fun AppGraph(
             ClientScreen(
                 client = null,
                 isEditMode = true,
-                onSaveClick = { fullName, age, address, avatarUri ->
+                onSaveClick = { fullName, age, address, avatarUri,  galleryUris: List<Uri>->
 
                     viewModel.saveClient(
                         fullName = fullName,
                         age = age,
                         address = address,
-                        avatarUri = avatarUri
+                        avatarUri = avatarUri,
+                        galleryUris = galleryUris
                     )
 
                     navController.popBackStack()
@@ -66,13 +68,14 @@ fun AppGraph(
             ClientScreen(
                 client = null,
                 isEditMode = true,
-                onSaveClick = { fullName, age, address, avatarUri ->
+                onSaveClick = { fullName, age, address, avatarUri, galleryUris: List<Uri> ->
 
                     viewModel.saveClient(
                         fullName = fullName,
                         age = age,
                         address = address,
-                        avatarUri = avatarUri
+                        avatarUri = avatarUri,
+                        galleryUris = galleryUris
                     )
 
                     navController.popBackStack()

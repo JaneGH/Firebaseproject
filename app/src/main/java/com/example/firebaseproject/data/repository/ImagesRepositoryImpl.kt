@@ -10,7 +10,7 @@ import androidx.work.workDataOf
 import com.example.firebaseproject.data.local.dao.UserImagesDao
 import com.example.firebaseproject.data.local.entity.UserImageEntity
 import com.example.firebaseproject.data.mappers.toDomain
-import com.example.firebaseproject.domain.SyncStatus
+import com.example.firebaseproject.data.SyncStatus
 import com.example.firebaseproject.domain.repository.ImagesRepository
 import com.example.firebaseproject.worker.ImagesSyncWorker
 import kotlinx.coroutines.flow.Flow
@@ -31,7 +31,7 @@ class ImagesRepositoryImpl @Inject constructor(
             UserImageEntity(
                 userId = uid,
                 localPath = localPath,
-                remoteUrl = null,
+                remoteUrl = "",
                 syncStatus = SyncStatus.PENDING,
                 createdAt = System.currentTimeMillis(),
                 clientId = ""

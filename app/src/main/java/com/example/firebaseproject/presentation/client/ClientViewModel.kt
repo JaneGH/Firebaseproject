@@ -26,7 +26,8 @@ class ClientViewModel @Inject constructor(
         fullName: String,
         age: Int,
         address: String,
-        avatarUri: Uri?
+        avatarUri: Uri?,
+        galleryUris: List<Uri>
     ) {
         viewModelScope.launch {
 
@@ -42,7 +43,18 @@ class ClientViewModel @Inject constructor(
                 avatarUri = savedPath?:""
             )
 
-            repository.addClient(client)
+            val savedGalleryPaths = galleryUris.mapNotNull { uri ->
+                try {
+                    imageStorage.saveImage(uri.toString())
+                } catch (e: Exception) {
+                    null
+                }
+            }
+
+            repository.addClient(
+                client = client,
+                galleryLocalPaths = savedGalleryPaths
+            )
         }
     }
 }

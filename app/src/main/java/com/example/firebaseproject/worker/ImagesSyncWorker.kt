@@ -6,7 +6,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.example.firebaseproject.data.local.dao.UserImagesDao
 import com.example.firebaseproject.data.remote.FirebaseImagesDataSource
-import com.example.firebaseproject.domain.SyncStatus
+import com.example.firebaseproject.data.SyncStatus
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 
