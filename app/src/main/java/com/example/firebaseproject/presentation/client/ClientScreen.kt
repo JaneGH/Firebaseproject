@@ -2,14 +2,19 @@ package com.example.firebaseproject.presentation.client
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.HorizontalDivider
@@ -18,11 +23,13 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -58,13 +65,14 @@ fun ClientScreen(
         }
     }
 
-
-
     var fullName by rememberSaveable { mutableStateOf("") }
     var age by rememberSaveable { mutableStateOf("") }
     var address by rememberSaveable { mutableStateOf("") }
     var selectedImageUri by rememberSaveable { mutableStateOf<Uri?>(null) }
     var selectedGalleryUris by rememberSaveable { mutableStateOf<List<Uri>>(emptyList()) }
+
+    var selectionMode by remember { mutableStateOf(false) }
+    var selectedItems by remember { mutableStateOf(setOf<Uri>()) }
 
     LaunchedEffect(uiState) {
         if (uiState is ClientUiState.Success) {
@@ -77,14 +85,14 @@ fun ClientScreen(
 
     val imagePickerLauncher =
         rememberLauncherForActivityResult(
-            contract = ActivityResultContracts.GetContent()
+            contract = ActivityResultContracts.PickVisualMedia()
         ) { uri: Uri? ->
             selectedImageUri = uri
         }
 
     val multiImagePickerLauncher =
         rememberLauncherForActivityResult(
-            contract = ActivityResultContracts.GetMultipleContents()
+            contract = ActivityResultContracts.PickMultipleVisualMedia(10)
         ) { uris: List<Uri> ->
             selectedGalleryUris =
                 (selectedGalleryUris + uris).distinct().take(10)
@@ -94,6 +102,7 @@ fun ClientScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 24.dp)
+            .verticalScroll(rememberScrollState())
     ) {
 
         Spacer(modifier = Modifier.height(48.dp))
@@ -110,7 +119,11 @@ fun ClientScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .clickable(enabled = isEditMode) {
-                        imagePickerLauncher.launch("image/*")
+                        imagePickerLauncher.launch(
+                            PickVisualMediaRequest(
+                                ActivityResultContracts.PickVisualMedia.ImageOnly
+                            )
+                        )
                     }
             ) {
                 when {
@@ -246,12 +259,65 @@ fun ClientScreen(
         OutlinedButton(
             onClick = {
                 if (selectedGalleryUris.size < 10) {
-                    multiImagePickerLauncher.launch("image/*")
+                    multiImagePickerLauncher.launch(
+                        PickVisualMediaRequest(
+                            ActivityResultContracts.PickVisualMedia.ImageOnly
+                        )
+                    )
+
                 }
             },
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Add Photos (${selectedGalleryUris.size}/10)")
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        if (selectionMode) {
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+
+                Text(
+                    text = "${selectedItems.size} selected",
+                    style = MaterialTheme.typography.bodyMedium
+                )
+
+                Row {
+
+                    TextButton(
+                        onClick = {
+                            selectedGalleryUris =
+                                selectedGalleryUris.filterNot {
+                                    selectedItems.contains(it)
+                                }
+
+                            selectedItems = emptySet()
+                            selectionMode = false
+                        }
+                    ) {
+                        Text(
+                            "Delete",
+                            color = MaterialTheme.colorScheme.error
+                        )
+                    }
+
+                    TextButton(
+                        onClick = {
+                            selectedItems = emptySet()
+                            selectionMode = false
+                        }
+                    ) {
+                        Text("Cancel")
+                    }
+                }
+            }
         }
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -263,7 +329,27 @@ fun ClientScreen(
             modifier = Modifier.heightIn(max = 300.dp)
         ) {
             items(selectedGalleryUris) { uri ->
-                Box {
+                val isSelected = selectedItems.contains(uri)
+                Box(
+                    modifier = Modifier
+                        .aspectRatio(1f)
+                        .clip(MaterialTheme.shapes.medium)
+                        .combinedClickable(
+                            onClick = {
+                                if (selectionMode) {
+                                    selectedItems =
+                                        if (isSelected)
+                                            selectedItems - uri
+                                        else
+                                            selectedItems + uri
+                                }
+                            },
+                            onLongClick = {
+                                selectionMode = true
+                                selectedItems = selectedItems + uri
+                            }
+                        )
+                ) {
                     AsyncImage(
                         model = uri,
                         contentDescription = null,
@@ -272,6 +358,15 @@ fun ClientScreen(
                             .clip(MaterialTheme.shapes.medium),
                         contentScale = ContentScale.Crop
                     )
+                    if (isSelected) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .background(
+                                    MaterialTheme.colorScheme.primary.copy(alpha = 0.4f)
+                                )
+                        )
+                    }
                 }
             }
         }
